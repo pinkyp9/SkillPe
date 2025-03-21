@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   LoginLink,
@@ -11,22 +12,26 @@ import {
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const pathname = usePathname(); // Get the current route
+  const isHomepage = pathname === '/'; // Check if user is on the homepage
 
   useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const res = await fetch('/api/auth/session');
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data);
+    if (!isHomepage) {
+      const fetchSession = async () => {
+        try {
+          const res = await fetch('/api/auth/session');
+          if (res.ok) {
+            const data = await res.json();
+            setUser(data);
+          }
+        } catch (err) {
+          console.error('Failed to fetch user session', err);
         }
-      } catch (err) {
-        console.error('Failed to fetch user session', err);
-      }
-    };
+      };
 
-    fetchSession();
-  }, []);
+      fetchSession();
+    }
+  }, [isHomepage]);
 
   return (
     <header className="border-b bg-background">
@@ -67,14 +72,13 @@ export default function Navbar() {
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="#features" className="text-sm font-medium hover:text-primary">Features</Link>
-          <Link href="#testimonials" className="text-sm font-medium hover:text-primary">Testimonials</Link>
-          <Link href="#pricing" className="text-sm font-medium hover:text-primary">Pricing</Link>
-          {!user && (
-            <LoginLink className="text-sm font-medium hover:text-primary">Login</LoginLink>
-          )}
-        </nav>
+        {!user && (
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href="#features" className="text-sm font-medium hover:text-primary">Features</Link>
+            <Link href="#testimonials" className="text-sm font-medium hover:text-primary">Testimonials</Link>
+            <Link href="#pricing" className="text-sm font-medium hover:text-primary">Pricing</Link>
+          </nav>
+        )}
 
         <div className="flex items-center gap-4">
           {!user ? (
@@ -101,4 +105,3 @@ export default function Navbar() {
     </header>
   );
 }
-    

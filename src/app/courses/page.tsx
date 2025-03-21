@@ -114,7 +114,7 @@ const courses = [
 
 export default function CoursesPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState(null)
+  const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null)
 
   return (
     <div className="container mx-auto p-6">
@@ -352,7 +352,7 @@ export default function CoursesPage() {
   )
 }
 
-function CourseCard({ course, onClick }) {
+function CourseCard({ course, onClick }: { course: typeof courses[0]; onClick: () => void }) {
   return (
     <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
       <Card className="cursor-pointer h-full overflow-hidden" onClick={onClick}>
