@@ -1,6 +1,7 @@
 "use client"
-
+import {useRouter} from 'next/navigation';
 import { useState } from "react"
+import Link from 'next/link'
 import { motion } from "framer-motion"
 import {
   Search,
@@ -127,11 +128,16 @@ const assessments = [
 ]
 
 export default function AssessmentsPage() {
+  const router=useRouter()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [selectedAssessment, setSelectedAssessment] = useState(null)
   const [assessmentStarted, setAssessmentStarted] = useState(false)
   
   const handleStartAssessment = () => {
+    if (selectedAssessment) {
+      const encodedTitle = encodeURIComponent(selectedAssessment.title)
+      router.push(`/quiz?title=${encodedTitle}`)
+    }
     setSelectedAssessment(null)
     setAssessmentStarted(true)
   }
@@ -410,9 +416,11 @@ function AssessmentCard({ assessment, onClick }) {
           )}
         </CardContent>
         <CardFooter>
+          {/* <Link href='/quiz'> */}
           <Button variant="outline" className="w-full">
             {assessment.completed ? "View Results" : "Take Assessment"}
           </Button>
+          {/* </Link> */}
         </CardFooter>
       </Card>
     </motion.div>
