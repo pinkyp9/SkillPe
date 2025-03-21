@@ -6,8 +6,31 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { useEffect, useState } from "react";
 
 export function ProfileHeader() {
+  const [user, setUser] = useState(null);
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const isHomepage = pathname === '/'; 
+  
+     useEffect(() => {
+        if (!isHomepage) {
+          const fetchSession = async () => {
+            try {
+              const res = await fetch('/api/auth/session');
+              if (res.ok) {
+                const data = await res.json();
+                console.log(data);
+                setUser(data);
+              }
+            } catch (err) {
+              console.error('Failed to fetch user session', err);
+            }
+          };
+    
+          fetchSession();
+        }
+      }, [isHomepage]);
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow">
       <div className="h-32 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-t-xl relative">
@@ -20,14 +43,14 @@ export function ProfileHeader() {
           <div className="-mt-12 flex flex-col items-center md:items-start">
             <Avatar className="h-24 w-24 border-4 border-background">
               <AvatarImage src="/placeholder.svg?height=96&width=96" />
-              <AvatarFallback>JD</AvatarFallback>
+              <AvatarFallback>{user&&user.name[0]}</AvatarFallback>
             </Avatar>
             <div className="mt-4 text-center md:text-left">
-              <h1 className="text-2xl font-bold">John Doe</h1>
+              <h1 className="text-2xl font-bold">{user&&user.name}</h1>
               <p className="text-muted-foreground">Full Stack Developer</p>
               <div className="flex flex-wrap gap-2 mt-2">
                 <Badge variant="outline" className="flex items-center gap-1">
-                  <Mail className="h-3 w-3" /> john.doe@example.com
+                  <Mail className="h-3 w-3" /> {user&&user.email}
                 </Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
                   <MapPin className="h-3 w-3" /> San Francisco, CA
@@ -106,4 +129,6 @@ export function ProfileHeader() {
     </div>
   )
 }
+
+// Removed local useEffect function
 
