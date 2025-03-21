@@ -63,24 +63,46 @@ export async function DELETE(req) {
 
 // GET: Retrieve all job listings for a company
 export async function GET(req) {
-  await connectDB();
+  await connectDB()
+  const { searchParams } = new URL(req.url)
 
-  try {
-    const { searchParams } = new URL(req.url);
-    const companyName = searchParams.get("companyName");
+  const filters = {}
 
-    if (!companyName) {
-      return Response.json({ error: "Company name is required" }, { status: 400 });
-    }
-
-    const company = await Company.findOne({ name: companyName });
-
-    if (!company) {
-      return Response.json({ error: "Company not found" }, { status: 404 });
-    }
-
-    return Response.json({ success: true, jobListings: company.jobListings }, { status: 200 });
-  } catch (error) {
-    return Response.json({ error: "Error fetching job listings", details: error.message }, { status: 500 });
+  if (searchParams.get("companyName")) {
+    filters["name"] = searchParams.get("companyName")
   }
+
+  const jobFilters = {}
+  if (searchParams.get("location")) {
+    jobFilters["jobListings.location"] = searchParams.get("location")
+  }
+
+  if (searchParams.get("language")) {
+    jobFilters["jobListings.language"] = searchParams.get("language")
+  }
+
+  const minPay = searchParams.get("minPay")
+  const maxPay = searchParams.get("maxPay")
+  if (minPay && maxPay) {
+    jobFilters["jobListings.pay.min"] = { $gte: parseInt(minPay) }
+    jobFilters["jobListings.pay.max"] = { $lte: parseInt(maxPay) }
+  }
+
+  const company = await Company.findOne(filters)
+
+  if (!company) {
+    return Response.json({ error: "Company not found" }, { status: 404 })
+  }
+
+  const filteredJobs = company.jobListings.filter((job) => {
+    if (jobFilters["jobListings.location"] && job.location !== jobFilters["jobListings.location"]) return false
+    if (jobFilters["jobListings.language"] && job.language !== jobFilters["jobListings.language"]) return false
+    if (minPay && maxPay) {
+      if (job.pay.min < minPay || job.pay.max > maxPay) return false
+    }
+    return true
+  })
+
+  return Response.json({ success: true, jobListings: filteredJobs }, { status: 200 })
 }
+
