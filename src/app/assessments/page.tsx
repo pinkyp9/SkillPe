@@ -29,6 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import AssessmentInterface from "@/components/AssessmentsInterface"
 
 const assessments = [
   {
@@ -41,6 +42,7 @@ const assessments = [
     credits: 15,
     completed: true,
     score: 92,
+    trustScore: 97,
     icon: Code,
   },
   {
@@ -53,6 +55,7 @@ const assessments = [
     credits: 25,
     completed: true,
     score: 88,
+    trustScore: 95,
     icon: Code,
   },
   {
@@ -126,6 +129,20 @@ const assessments = [
 export default function AssessmentsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [selectedAssessment, setSelectedAssessment] = useState(null)
+  const [assessmentStarted, setAssessmentStarted] = useState(false)
+  
+  const handleStartAssessment = () => {
+    setSelectedAssessment(null)
+    setAssessmentStarted(true)
+  }
+
+  const handleCloseAssessment = () => {
+    setAssessmentStarted(false)
+  }
+
+  if (assessmentStarted) {
+    return <AssessmentInterface onClose={handleCloseAssessment} />
+  }
 
   return (
     <div className="container mx-auto p-6">
@@ -256,7 +273,7 @@ export default function AssessmentsPage() {
       </Tabs>
 
       <Dialog open={!!selectedAssessment} onOpenChange={() => setSelectedAssessment(null)}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Assessment Details</DialogTitle>
             <DialogDescription>{selectedAssessment?.title}</DialogDescription>
@@ -322,9 +339,16 @@ export default function AssessmentsPage() {
                 <div className="text-center p-4 bg-green-50 dark:bg-green-950 rounded-lg">
                   <CheckCircle className="h-8 w-8 mx-auto text-green-600 dark:text-green-400" />
                   <h4 className="font-medium mt-2 text-green-800 dark:text-green-300">Assessment Completed</h4>
-                  <p className="text-sm text-green-700 dark:text-green-400">
-                    You scored {selectedAssessment.score}% on this assessment
-                  </p>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div>
+                      <p className="text-xs text-green-700 dark:text-green-400">Skill Score</p>
+                      <p className="font-medium text-green-800 dark:text-green-300">{selectedAssessment.score}%</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-green-700 dark:text-green-400">Trust Score</p>
+                      <p className="font-medium text-green-800 dark:text-green-300">{selectedAssessment.trustScore}%</p>
+                    </div>
+                  </div>
                   <Button className="mt-3" variant="outline">
                     View Results
                   </Button>
@@ -332,7 +356,7 @@ export default function AssessmentsPage() {
               ) : (
                 <DialogFooter>
                   <Button variant="outline">Cancel</Button>
-                  <Button>Start Assessment</Button>
+                  <Button onClick={handleStartAssessment}>Start Assessment</Button>
                 </DialogFooter>
               )}
             </div>
@@ -394,4 +418,3 @@ function AssessmentCard({ assessment, onClick }) {
     </motion.div>
   )
 }
-
