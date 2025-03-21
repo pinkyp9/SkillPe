@@ -7,7 +7,9 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   
   // Hide sidebar for homepage and signup page
-  const hideSidebar = pathname === "/" || pathname === "/signup" || pathname === "/login"
+
+  const hideSidebar = pathname === "/" || pathname === "/signup" || pathname === "/login" || pathname === "/recruiter/jobs" || pathname === "/recruiter/shortlisted" || pathname === "/recruiter/selected" || pathname === "/recruiter/analytics" || pathname === "/recruiter/jobs" || pathname === "/recruiter/assessments" || pathname === "/recruiter/challenges" || pathname === "/recruiter/shortlisted" || pathname === "/recruiter/selected"
+
 
   return (
     <div className="flex h-screen">
