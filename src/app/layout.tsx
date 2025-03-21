@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarLayout } from "../components/sidebar-layout" // Import new client component
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from '@/components/Navbar'
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -20,6 +21,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {/* Add Navbar component */}
+          <Navbar />
           {/* Move sidebar logic to a client component */}
           <SidebarLayout>{children}</SidebarLayout>
           <Toaster />
