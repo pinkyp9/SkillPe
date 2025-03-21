@@ -1,101 +1,182 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { HeroSection } from "@/components/home/hero-section"
+import { FeatureSection } from "@/components/home/feature-section"
+import { TestimonialSection } from "@/components/home/testimonial-section"
+import { CTASection } from "@/components/home/cta-section"
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col min-h-screen">
+      <header className="border-b bg-background">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-2">
+            <div className="bg-primary/10 p-2 rounded-md">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-6 w-6 text-primary"
+              >
+                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                <path d="M12 2v2" />
+                <path d="M12 22v-2" />
+                <path d="m17 20.66-1-1.73" />
+                <path d="M11 10.27 7 3.34" />
+                <path d="m20.66 17-1.73-1" />
+                <path d="m3.34 7 1.73 1" />
+                <path d="M14 12h8" />
+                <path d="M2 12h2" />
+                <path d="m20.66 7-1.73 1" />
+                <path d="m3.34 17 1.73-1" />
+                <path d="m17 3.34-1 1.73" />
+                <path d="m11 13.73-4 6.93" />
+              </svg>
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-violet-500 to-fuchsia-500 text-transparent bg-clip-text">
+              SkillPe
+            </span>
+          </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href="#features" className="text-sm font-medium hover:text-primary">
+              Features
+            </Link>
+            <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
+              Testimonials
+            </Link>
+            <Link href="#pricing" className="text-sm font-medium hover:text-primary">
+              Pricing
+            </Link>
+            <Link href="/login" className="text-sm font-medium hover:text-primary">
+              Login
+            </Link>
+          </nav>
+          <div className="flex items-center gap-4">
+            <Link href="/login" className="hidden md:block">
+              <Button variant="outline">Log in</Button>
+            </Link>
+            <Link href="/signup">
+              <Button>Sign up</Button>
+            </Link>
+          </div>
         </div>
+      </header>
+      <main className="flex-1">
+        <HeroSection />
+        <FeatureSection />
+        <TestimonialSection />
+        <CTASection />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="border-t bg-background">
+        <div className="container mx-auto px-4 py-6 sm:px-6 md:py-10">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="bg-primary/10 p-2 rounded-md">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-6 w-6 text-primary"
+                  >
+                    <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+                    <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                    <path d="M12 2v2" />
+                    <path d="M12 22v-2" />
+                    <path d="m17 20.66-1-1.73" />
+                    <path d="M11 10.27 7 3.34" />
+                    <path d="m20.66 17-1.73-1" />
+                    <path d="m3.34 7 1.73 1" />
+                    <path d="M14 12h8" />
+                    <path d="M2 12h2" />
+                    <path d="m20.66 7-1.73 1" />
+                    <path d="m3.34 17 1.73-1" />
+                    <path d="m17 3.34-1 1.73" />
+                    <path d="m11 13.73-4 6.93" />
+                  </svg>
+                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-violet-500 to-fuchsia-500 text-transparent bg-clip-text">
+                  SkillPe
+                </span>
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                A job platform focused on skills, not resumes. Find the perfect job based on your skills and expertise.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-sm font-medium">Company</h3>
+                <ul className="mt-4 space-y-2">
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      Careers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      Contact
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium">Resources</h3>
+                <ul className="mt-4 space-y-2">
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      Blog
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      Documentation
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+                      Help Center
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium">Subscribe to our newsletter</h3>
+              <p className="mt-4 text-sm text-muted-foreground">Get the latest news and updates from SkillPe.</p>
+              <form className="mt-4 flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                />
+                <Button type="submit">Subscribe</Button>
+              </form>
+            </div>
+          </div>
+          <div className="mt-8 border-t pt-8 text-center">
+            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} SkillPe. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
+
