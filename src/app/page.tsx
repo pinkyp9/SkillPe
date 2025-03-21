@@ -8,66 +8,7 @@ import { CTASection } from "@/components/home/cta-section"
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="border-b bg-background">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-2">
-            <div className="bg-primary/10 p-2 rounded-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6 text-primary"
-              >
-                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
-                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                <path d="M12 2v2" />
-                <path d="M12 22v-2" />
-                <path d="m17 20.66-1-1.73" />
-                <path d="M11 10.27 7 3.34" />
-                <path d="m20.66 17-1.73-1" />
-                <path d="m3.34 7 1.73 1" />
-                <path d="M14 12h8" />
-                <path d="M2 12h2" />
-                <path d="m20.66 7-1.73 1" />
-                <path d="m3.34 17 1.73-1" />
-                <path d="m17 3.34-1 1.73" />
-                <path d="m11 13.73-4 6.93" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-violet-500 to-fuchsia-500 text-transparent bg-clip-text">
-              SkillPe
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-sm font-medium hover:text-primary">
-              Features
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
-              Testimonials
-            </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-              Pricing
-            </Link>
-            <Link href="/login" className="text-sm font-medium hover:text-primary">
-              Login
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden md:block">
-              <Button variant="outline">Log in</Button>
-            </Link>
-            <Link href="/signup">
-              <Button>Sign up</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      
       <main className="flex-1">
         <HeroSection />
         <FeatureSection />

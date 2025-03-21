@@ -53,7 +53,7 @@ const jobs = [
     type: "Full-time",
     salary: "$120,000 - $150,000",
     postedDate: "2 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
+    logo: "https://plus.unsplash.com/premium_photo-1669077043641-7cb423357d08?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     credits: 25,
     compatibility: 92,
     description:
@@ -85,7 +85,7 @@ const jobs = [
     type: "Full-time",
     salary: "$100,000 - $130,000",
     postedDate: "1 week ago",
-    logo: "/placeholder.svg?height=40&width=40",
+    logo: "https://plus.unsplash.com/premium_photo-1681488396760-2f64648717dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     credits: 20,
     compatibility: 85,
     description:
@@ -117,7 +117,7 @@ const jobs = [
     type: "Contract",
     salary: "$90,000 - $110,000",
     postedDate: "3 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
+    logo: "https://plus.unsplash.com/premium_photo-1667232497335-a22785d615b8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2Vic29sdXRpb25zfGVufDB8fDB8fHww",
     credits: 15,
     compatibility: 78,
     description:
@@ -149,7 +149,7 @@ const jobs = [
     type: "Full-time",
     salary: "$110,000 - $140,000",
     postedDate: "5 days ago",
-    logo: "/placeholder.svg?height=40&width=40",
+    logo: "https://plus.unsplash.com/premium_photo-1700483267294-eb01387a17a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29kZW1hc3RlcnN8ZW58MHx8MHx8fDA%3D",
     credits: 30,
     compatibility: 88,
     description:
