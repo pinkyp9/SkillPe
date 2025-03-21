@@ -15,7 +15,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const navItems = [
   {
     title: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -45,6 +45,32 @@ export function Sidebar() {
   const { theme, setTheme } = useTheme()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState(null);
+  const isHomepage = pathname === '/'; 
+
+   useEffect(() => {
+      if (!isHomepage) {
+        const fetchSession = async () => {
+          try {
+            const res = await fetch('/api/auth/session');
+            if (res.ok) {
+              const data = await res.json();
+              console.log(data);
+              setUser(data);
+            }
+          } catch (err) {
+            console.error('Failed to fetch user session', err);
+          }
+        };
+  
+        fetchSession();
+      }
+    }, [isHomepage]);
+  
+  // After mounting, we can safely show the UI that depends on the theme
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // After mounting, we can safely show the UI that depends on the theme
   useEffect(() => {
@@ -102,10 +128,10 @@ export function Sidebar() {
           <div className="flex items-center gap-3 px-3 py-2">
             <Avatar>
               <AvatarImage src="/placeholder.svg?height=40&width=40" />
-              <AvatarFallback>JP</AvatarFallback>
+              <AvatarFallback>{user&&user.name['0']}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <p className="text-sm font-medium">John Doe</p>
+              <p className="text-sm font-medium">{user&&user.name}</p>
               <div className="flex items-center gap-1">
                 <Badge variant="outline" className="text-xs px-1 py-0 h-5 bg-primary/10 hover:bg-primary/20">
                   100 Credits
@@ -118,7 +144,7 @@ export function Sidebar() {
           <div className="flex justify-center py-2">
             <Avatar>
               <AvatarImage src="/placeholder.svg?height=40&width=40" />
-              <AvatarFallback>JP</AvatarFallback>
+              <AvatarFallback>{user&&user.name['0']}</AvatarFallback>
             </Avatar>
           </div>
         )}

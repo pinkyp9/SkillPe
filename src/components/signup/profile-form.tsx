@@ -8,9 +8,50 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-export function ProfileForm({ resumeUploaded, onSubmit, isLoading }) {
+interface ProfileFormProps {
+  resumeUploaded: boolean;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+}
+
+export function ProfileForm({ resumeUploaded, onSubmit, isLoading }: ProfileFormProps) {
   // Pre-filled data if resume was uploaded
-  const [formData, setFormData] = useState({
+
+
+
+
+  interface FormData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    location: string;
+    title: string;
+    summary: string;
+    skills: string[];
+    newSkill: string;
+    experience: Experience[];
+    education: Education[];
+  }
+
+  interface Experience {
+    company: string;
+    title: string;
+    startDate: string;
+    endDate: string;
+    current: boolean;
+    description: string;
+  }
+
+  interface Education {
+    institution: string;
+    degree: string;
+    startDate: string;
+    endDate: string;
+    current: boolean;
+  }
+
+  const [formData, setFormData] = useState<FormData>({
     firstName: resumeUploaded ? "John" : "",
     lastName: resumeUploaded ? "Doe" : "",
     email: resumeUploaded ? "john.doe@example.com" : "",
@@ -53,16 +94,16 @@ export function ProfileForm({ resumeUploaded, onSubmit, isLoading }) {
           },
         ]
       : [],
-  })
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSelectChange = (name, value) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const addSkill = () => {
     if (formData.newSkill.trim() !== "" && !formData.skills.includes(formData.newSkill.trim())) {
@@ -70,16 +111,16 @@ export function ProfileForm({ resumeUploaded, onSubmit, isLoading }) {
         ...prev,
         skills: [...prev.skills, prev.newSkill.trim()],
         newSkill: "",
-      }))
+      }));
     }
-  }
+  };
 
-  const removeSkill = (skillToRemove) => {
+  const removeSkill = (skillToRemove: string) => {
     setFormData((prev) => ({
       ...prev,
       skills: prev.skills.filter((skill) => skill !== skillToRemove),
-    }))
-  }
+    }));
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -165,9 +206,6 @@ export function ProfileForm({ resumeUploaded, onSubmit, isLoading }) {
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   id="location" 
-                  name="location  />
-                <Input 
-                  id=\"location" 
                   name="location" 
                   value={formData.location} 
                   onChange={handleChange} 

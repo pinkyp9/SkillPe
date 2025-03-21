@@ -31,7 +31,7 @@ const courses = [
     completed: false,
     instructor: "Jane Smith",
     rating: 4.8,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["React", "JavaScript", "Design Patterns"],
     description: "Learn advanced React patterns and techniques to build scalable and maintainable applications.",
   },
@@ -46,7 +46,7 @@ const courses = [
     completed: false,
     instructor: "John Doe",
     rating: 4.6,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["Node.js", "Microservices", "API Design"],
     description: "Build scalable microservices with Node.js and learn best practices for distributed systems.",
   },
@@ -61,7 +61,7 @@ const courses = [
     completed: true,
     instructor: "Sarah Johnson",
     rating: 4.9,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://plus.unsplash.com/premium_photo-1661589354357-f56ddf86a0b4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["UI Design", "UX Research", "Prototyping"],
     description: "Learn the fundamentals of UI/UX design and create user-centered digital experiences.",
   },
@@ -76,7 +76,7 @@ const courses = [
     completed: false,
     instructor: "Michael Chen",
     rating: 4.7,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://plus.unsplash.com/premium_photo-1661882403999-46081e67c401?q=80&w=2029&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["Algorithms", "Data Structures", "Problem Solving"],
     description: "Master data structures and algorithms to solve complex programming problems efficiently.",
   },
@@ -91,7 +91,7 @@ const courses = [
     completed: false,
     instructor: "Alex Rodriguez",
     rating: 4.5,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["HTML/CSS", "JavaScript", "Node.js", "React", "MongoDB"],
     description: "Become a full stack developer by learning both frontend and backend technologies.",
   },
@@ -106,7 +106,7 @@ const courses = [
     completed: true,
     instructor: "Emily Watson",
     rating: 4.4,
-    image: "/placeholder.svg?height=200&width=400",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     skills: ["Writing", "Presentation", "Documentation"],
     description: "Improve your technical communication skills for better collaboration and documentation.",
   },
@@ -114,7 +114,7 @@ const courses = [
 
 export default function CoursesPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState(null)
+  const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null)
 
   return (
     <div className="container mx-auto p-6">
@@ -352,7 +352,7 @@ export default function CoursesPage() {
   )
 }
 
-function CourseCard({ course, onClick }) {
+function CourseCard({ course, onClick }: { course: typeof courses[0]; onClick: () => void }) {
   return (
     <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
       <Card className="cursor-pointer h-full overflow-hidden" onClick={onClick}>
