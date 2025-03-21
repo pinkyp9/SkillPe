@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ['unsplash.com'],
+  },
+};
 
-module.exports = {
-    images: {
-      domains: ['https://unsplash.com'],
-    },
-  };
-  
-export default nextConfig;
+export default nextConfig; // Correct ESM export
