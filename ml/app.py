@@ -4,8 +4,11 @@ import re
 import resume
 import job
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+# Enable CORS specifically for your frontend
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # Function to match user resume to job
 def match_user_to_job(resume_data, job_data):
@@ -108,22 +111,20 @@ def match_resume_to_job():
         return jsonify({"error": str(e)}), 500
     
     finally:
-        os.remove(resume_path)
-        os.remove(job_desc_path)
+        # Clean up temporary files
+        if os.path.exists(resume_path):
+            os.remove(resume_path)
+        if os.path.exists(job_desc_path):
+            os.remove(job_desc_path)
 
 
 @app.route("/analyze_resume", methods=["POST"])
 def analyze_resume():
-    """
-    API endpoint that accepts a resume PDF file and returns structured analysis.
-    
-    Expects: multipart/form-data with a 'resume' file field containing the PDF
-    Returns: JSON with the extracted and analyzed resume data
-    """
     if "resume" not in request.files:
         return jsonify({"error": "Resume file (PDF) is required."}), 400
     
     resume_file = request.files["resume"]
+    print(f"Received resume file: {resume_file.filename}")
     
     # Verify file type
     if not resume_file.filename.lower().endswith('.pdf'):
@@ -136,11 +137,13 @@ def analyze_resume():
     try:
         # Process the resume using your existing function
         result = resume.extract_resume_details(temp_path)
+        print(f"Resume analysis result: {result[:100]}...")  # Print first 100 chars for debugging
         
         # Return the result (already in JSON format)
         return result, 200, {'Content-Type': 'application/json'}
     
     except Exception as e:
+        print(f"Error analyzing resume: {str(e)}")
         return jsonify({"error": str(e)}), 500
     
     finally:
@@ -148,7 +151,11 @@ def analyze_resume():
         if os.path.exists(temp_path):
             os.remove(temp_path)
 
-
+# Add a simple status endpoint to check if the API is running
+@app.route("/status", methods=["GET"])
+def status():
+    return jsonify({"status": "API is running"}), 200
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    print("Starting resume matching API on http://localhost:5000")
+    app.run(debug=True, host='0.0.0.0', port=5000)

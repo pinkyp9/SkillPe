@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { Loader2, Download, FileText, Eye } from "lucide-react"
+import { Loader2, Download, FileText, Eye, AlertTriangle, ServerCrash } from "lucide-react"
 
 // Define TypeScript interfaces
 interface PersonalDetails {
@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#8b5cf6",
   },
+  skillCategory: {
+    fontSize: 11,
+    fontWeight: "bold",
+    marginBottom: 2,
+  },
   experienceItem: {
     marginBottom: 10,
   },
@@ -123,6 +128,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 })
+
+// API configuration
+const API_BASE_URL = 'http://localhost:5000';
 
 // Resume PDF Document Component based on original resume data
 const ResumePDF = ({ resumeData }: { resumeData: ResumeData }) => (
@@ -183,10 +191,43 @@ export function ResumeGenerator() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [resumeContent, setResumeContent] = useState<string>("")
   const [resumeUrl, setResumeUrl] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking')
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Check if the backend is available when the component mounts
+  useEffect(() => {
+    const checkBackendStatus = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/status`, { 
+          method: 'GET',
+          // Adding timeout to avoid long waits if server is down
+          signal: AbortSignal.timeout(5000)
+        });
+        if (response.ok) {
+          setBackendStatus('online');
+        } else {
+          setBackendStatus('offline');
+        }
+      } catch (error) {
+        console.error('Backend connection error:', error);
+        setBackendStatus('offline');
+      }
+    };
+
+    checkBackendStatus();
+  }, []);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
+      // Check if backend is available
+      if (backendStatus === 'offline') {
+        setError("Cannot connect to the analysis server. Please ensure the backend is running on port 5000.");
+        return;
+      }
+
+      // Reset any previous errors
+      setError(null)
       setUploadedFile(file)
       setIsUploading(true)
 
@@ -195,86 +236,45 @@ export function ResumeGenerator() {
       setResumeUrl(fileUrl)
 
       // Read file content if needed (for text files)
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const content = e.target?.result as string
-        setResumeContent(content)
-      }
-      
-      // For PDFs you would only use the URL above, not the content
-      // But for demo purposes, we'll read text content too
       if (file.type === 'text/plain') {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          const content = e.target?.result as string
+          setResumeContent(content)
+        }
         reader.readAsText(file)
       }
 
-      // Simulate API call to analyze resume
-      setTimeout(() => {
-        // Here we still set the analysis data based on the resume
-        setResumeData({
-          personal_details: {
-            name: file.name.split('.')[0].replace(/_/g, ' '),
-            email: "your.email@example.com",
-            phone: "+1 (555) 123-4567",
-            links: {
-              LinkedIn: "https://linkedin.com/in/yourprofile",
-            },
-          },
-          skills_analysis: {
-            "Software Development": {
-              skills: ["JavaScript", "React", "TypeScript", "Node.js", "Git"],
-              score: 10,
-              percentage: 27.03,
-            },
-            "Web Development": {
-              skills: ["HTML", "CSS", "React", "JavaScript", "Bootstrap"],
-              score: 7,
-              percentage: 18.92,
-            },
-            "Data Science & Analytics": {
-              skills: ["Python", "SQL", "Pandas", "NumPy", "Data Visualization"],
-              score: 7,
-              percentage: 18.92,
-            },
-            "Machine Learning & AI": {
-              skills: ["TensorFlow", "NLP", "Neural Networks"],
-              score: 3,
-              percentage: 8.11,
-            },
-            "Database Management": {
-              skills: ["SQL", "MongoDB", "MySQL", "PostgreSQL"],
-              score: 4,
-              percentage: 10.81,
-            },
-          },
-          career_prediction: {
-            recommended_field: "Full Stack Development",
-            field_scores: {
-              "Web Development": 38.89,
-              "Software Development": 36.67,
-              "Data Science & Analytics": 22.22,
-              "Machine Learning & AI": 12.22,
-            },
-          },
-          experiences: [
-            {
-              role: "TechCorp | Senior Frontend Developer",
-              skills: ["React", "TypeScript", "Redux"],
-              duration: "2020 - Present",
-              description:
-                "Led the development of responsive web applications using React and TypeScript.",
-            },
-            {
-              role: "WebSolutions Inc. | Frontend Developer",
-              skills: ["JavaScript", "HTML", "CSS"],
-              duration: "2018 - 2020",
-              description:
-                "Developed and maintained client websites using JavaScript, HTML, and CSS.",
-            },
-          ],
+      try {
+        // Create a FormData object to send the file
+        const formData = new FormData()
+        formData.append('resume', file)
+
+        // Send the file to your backend API
+        const response = await fetch(`${API_BASE_URL}/analyze_resume`, {
+          method: 'POST',
+          body: formData,
         })
+
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`)
+        }
+
+        // Parse the JSON response
+        const data = await response.json()
         
+        // Check if the response contains error information
+        if (data.error) {
+          throw new Error(data.error)
+        }
+        
+        setResumeData(data)
+      } catch (error) {
+        console.error('Error analyzing resume:', error)
+        setError(error instanceof Error ? error.message : 'An unknown error occurred')
+      } finally {
         setIsUploading(false)
-      }, 2000)
+      }
     }
   }
 
@@ -323,10 +323,36 @@ export function ResumeGenerator() {
     }
   }
 
+  // Error display component
+  const ErrorMessage = ({ message }: { message: string }) => (
+    <div className="bg-red-50 border border-red-200 text-red-800 rounded-md p-4 flex items-start mt-4">
+      <AlertTriangle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0 mt-0.5" />
+      <div>
+        <h4 className="font-medium">Resume Analysis Failed</h4>
+        <p className="text-sm mt-1">{message}</p>
+      </div>
+    </div>
+  )
+
+  // Backend status warning component
+  const BackendStatusWarning = () => (
+    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-md p-4 flex items-start mb-4">
+      <ServerCrash className="h-5 w-5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
+      <div>
+        <h4 className="font-medium">Analysis Server Offline</h4>
+        <p className="text-sm mt-1">
+          Cannot connect to the resume analysis server. Please ensure the backend is running on port 5000.
+        </p>
+      </div>
+    </div>
+  )
+
   return (
     <div className="space-y-6">
       <Card>
         <CardContent className="pt-6">
+          {backendStatus === 'offline' && <BackendStatusWarning />}
+          
           <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 text-center">
             <FileText className="h-10 w-10 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium mb-2">Upload Your Resume</h3>
@@ -343,23 +369,31 @@ export function ResumeGenerator() {
             <Button
               variant="outline"
               onClick={() => document.getElementById("resume-upload")?.click()}
-              disabled={isUploading}
+              disabled={isUploading || backendStatus === 'offline'}
             >
               {isUploading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Analyzing Resume...
                 </>
+              ) : backendStatus === 'checking' ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Checking Connection...
+                </>
               ) : (
                 "Choose File"
               )}
             </Button>
             {uploadedFile && <p className="mt-2 text-sm text-muted-foreground">{uploadedFile.name}</p>}
+            
+            {/* Show error message if there's an error */}
+            {error && <ErrorMessage message={error} />}
           </div>
         </CardContent>
       </Card>
 
-      {/* Only show results after file upload */}
+      {/* Only show results after file upload and successful analysis */}
       {resumeData && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
