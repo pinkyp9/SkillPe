@@ -133,11 +133,11 @@ export function Sidebar() {
             </Avatar>
             <div className="flex flex-col">
               <p className="text-sm font-medium">{user&&user.name}</p>
-              <div className="flex items-center gap-1">
+              {/* <div className="flex items-center gap-1">
                 <Badge variant="outline" className="text-xs px-1 py-0 h-5 bg-primary/10 hover:bg-primary/20">
                   100 Credits
                 </Badge>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
