@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {LogoutLink} from '@kinde-oss/kinde-auth-nextjs/components';
 
 const navItems = [
   {
@@ -127,8 +128,8 @@ export function Sidebar() {
         {!isCollapsed && (
           <div className="flex items-center gap-3 px-3 py-2">
             <Avatar>
-              <AvatarImage src="/placeholder.svg?height=40&width=40" />
-              <AvatarFallback>{user&&user.name['0']}</AvatarFallback>
+              <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHByb2ZpbGUlMjBzcXVhcmV8ZW58MHx8MHx8fDA%3D" />
+              {/* <AvatarFallback>{user&&user.name['0']}</AvatarFallback> */}
             </Avatar>
             <div className="flex flex-col">
               <p className="text-sm font-medium">{user&&user.name}</p>
@@ -184,9 +185,11 @@ export function Sidebar() {
               </DropdownMenuContent>
             </DropdownMenu>
           )}
+          <LogoutLink>
           <Button variant="ghost" size="icon">
             <LogOut className="h-5 w-5" />
           </Button>
+          </LogoutLink>
           {!isCollapsed && (
             <Button variant="ghost" size="icon">
               <User className="h-5 w-5" />

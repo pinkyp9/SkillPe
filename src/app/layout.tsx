@@ -22,7 +22,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {/* Add Navbar component */}
-          <Navbar />
           {/* Move sidebar logic to a client component */}
           <SidebarLayout>{children}</SidebarLayout>
           <Toaster />

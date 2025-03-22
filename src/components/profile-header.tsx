@@ -62,11 +62,11 @@ export function ProfileHeader() {
                   <Mail className="h-3 w-3" /> {user && user.email}
                 </Badge>
                 <Badge variant="outline" className="flex items-center gap-1 py-1">
-                  <MapPin className="h-3 w-3" /> San Francisco, CA
+                  <MapPin className="h-3 w-3" /> Mumbai, Maharashtra
                 </Badge>
-                <Badge variant="outline" className="flex items-center gap-1 py-1">
+                {/* <Badge variant="outline" className="flex items-center gap-1 py-1">
                   <Briefcase className="h-3 w-3" /> 3 years experience
-                </Badge>
+                </Badge> */}
               </div>
             </div>
           </div>
