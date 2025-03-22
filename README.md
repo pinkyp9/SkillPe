@@ -102,30 +102,6 @@ NEXTAUTH_SECRET=<your_nextauth_secret>
 
 # Run development server
 npm run dev
-```
-
----
-
-## 📷 Screenshots
-*(Replace these placeholders with screenshots from your project)*
-
-| Applicant Dashboard | Recruiter Dashboard |
-| ------------------- | ------------------- |
-| ![Applicant Dashboard](https://via.placeholder.com/400x300) | ![Recruiter Dashboard](https://via.placeholder.com/400x300) |
-
-| Coding Playground | Job Listings |
-| ----------------- | ------------ |
-| ![Coding Playground](https://via.placeholder.com/400x300) | ![Job Listings](https://via.placeholder.com/400x300) |
-
----
-
-## 🙌 Contributors
-
-- [Your Name](https://github.com/yourusername)
-- [Team Member 2](https://github.com/member2)
-- [Team Member 3](https://github.com/member3)
-
----
 
 ## 📜 License
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
