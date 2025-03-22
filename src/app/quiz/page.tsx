@@ -11,8 +11,11 @@ import { Progress } from "@/components/ui/progress"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { TrustScoreIndicator } from "@/components/assessment/trust-score-indicator"
 import { Timer } from "@/components/assessment/timer"
+import { useSearchParams } from "next/navigation"
 
 export default function QuizPage() {
+  const searchParams = useSearchParams()
+  const title = searchParams.get("title")
   const [questions, setQuestions] = useState([])
   const [current, setCurrent] = useState(0)
   const [answers, setAnswers] = useState({})
@@ -29,7 +32,7 @@ export default function QuizPage() {
   useEffect(() => {
     fetch("/api/skillsmcq", {
       method: "POST",
-      body: JSON.stringify({ skill: "Options Trading" }), // Replace with dynamic skill if needed
+      body: JSON.stringify({ skill: title }), // Replace with dynamic skill if needed
     })
       .then(res => res.json())
       .then(data => setQuestions(data.questions || []))
