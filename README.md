@@ -1,6 +1,3 @@
-Here's a beautifully crafted `README.md` file that you can use directly on GitHub, showcasing your project attractively and professionally:  
-
----
 
 # 🚀 SkillPe – A Job Platform Focused on Skills, Not Resumes  
 
