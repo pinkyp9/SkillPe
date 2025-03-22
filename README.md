@@ -119,9 +119,7 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 ## 📬 Contact
 Feel free to reach out for questions, feedback, or collaboration opportunities!
 
-**Email:** your-email@example.com  
-**GitHub:** [yourusername](https://github.com/yourusername)  
-**LinkedIn:** [Your LinkedIn](https://www.linkedin.com/in/yourprofile/)
+**Email:** thepinkypamecha@gmail.com  
 
 ---
 
