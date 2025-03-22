@@ -9,6 +9,7 @@ import { SkillsChart } from "@/components/skills-chart"
 import { ActivityChart } from "@/components/activity-chart"
 import { AppliedJobsList } from "@/components/applied-jobs-list"
 import { SavedJobsList } from "@/components/saved-jobs-list"
+import { ResumeGenerator } from "@/components/profile/resume-generator"
 
 export default function Dashboard() {
   return (
@@ -16,10 +17,12 @@ export default function Dashboard() {
       <ProfileHeader />
 
       <Tabs defaultValue="overview" className="mt-6">
-        <TabsList className="grid w-full md:w-auto grid-cols-4 md:grid-cols-5">
+        <TabsList className="grid w-full md:w-auto grid-cols-4 md:grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
           <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsTrigger value="resume">Resume</TabsTrigger>
+          
           <TabsTrigger value="applied">Applied Jobs</TabsTrigger>
           <TabsTrigger value="saved">Saved Jobs</TabsTrigger>
         </TabsList>
@@ -200,6 +203,8 @@ export default function Dashboard() {
             
           </div>
         </TabsContent>
+        <TabsContent value="resume">
+          <ResumeGenerator/></TabsContent>
 
         <TabsContent value="applied">
           <AppliedJobsList />

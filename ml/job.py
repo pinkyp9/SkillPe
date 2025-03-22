@@ -37,7 +37,5 @@ def extract_job_details(job_description):
     return json.dumps(job_data, indent=4)  # Convert to JSON format with indentation
 
 
-# Correct way to read the file and pass its content to the function
-with open("job_description.txt", "r", encoding="utf-8") as file:
-    job_description_text = file.read()
+
 

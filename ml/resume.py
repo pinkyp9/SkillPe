@@ -486,4 +486,4 @@ def extract_resume_details(pdf_path):
         return resume_analysis
     resume_analysis = analyze_resume(pdf_path)
     return json.dumps(resume_analysis, indent=4)
-extract_resume_details("resume.pdf")
+

@@ -111,5 +111,44 @@ def match_resume_to_job():
         os.remove(resume_path)
         os.remove(job_desc_path)
 
+
+@app.route("/analyze_resume", methods=["POST"])
+def analyze_resume():
+    """
+    API endpoint that accepts a resume PDF file and returns structured analysis.
+    
+    Expects: multipart/form-data with a 'resume' file field containing the PDF
+    Returns: JSON with the extracted and analyzed resume data
+    """
+    if "resume" not in request.files:
+        return jsonify({"error": "Resume file (PDF) is required."}), 400
+    
+    resume_file = request.files["resume"]
+    
+    # Verify file type
+    if not resume_file.filename.lower().endswith('.pdf'):
+        return jsonify({"error": "Uploaded file must be a PDF."}), 400
+    
+    # Save uploaded file temporarily
+    temp_path = "temp_resume.pdf"
+    resume_file.save(temp_path)
+    
+    try:
+        # Process the resume using your existing function
+        result = resume.extract_resume_details(temp_path)
+        
+        # Return the result (already in JSON format)
+        return result, 200, {'Content-Type': 'application/json'}
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    finally:
+        # Clean up the temporary file
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
